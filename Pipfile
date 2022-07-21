@@ -8,6 +8,13 @@ flask = "*"
 gunicorn = "*"
 uvicorn = "*"
 fastapi = "*"
+pandas = "*"
+numpy = "*"
+isodate = "*"
+python-dotenv = "*"
+mysql-connector-python = "*"
+google-api-python-client = "*"
+ipython = "*"
 
 [dev-packages]
 

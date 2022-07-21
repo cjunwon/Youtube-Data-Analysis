@@ -1,7 +1,24 @@
-# Import Libraries for API request
+# Import libraries for API request
 from googleapiclient.discovery import build
 from IPython.display import JSON
 import pandas as pd
+import numpy as np
+import datetime
+import isodate
+import os
+from dotenv import load_dotenv
+
+def build_yt_API_object():
+    # Import Credentials
+    load_dotenv()
+    API_KEY = os.getenv('API_KEY')
+
+    # Create Youtube API build object
+    api_service_name = "youtube"
+    api_version = "v3"
+    youtube_obj = build(api_service_name, api_version, developerKey=API_KEY)
+
+    return youtube_obj
 
 def get_channel_stats(youtube, channel_ids):
 
@@ -131,3 +148,41 @@ def get_video_details(youtube, video_ids):
             all_video_info.append(video_info)
         
     return pd.DataFrame(all_video_info)
+
+def create_video_df(youtube_obj, channel_id_list):
+    channel_stats = get_channel_stats(youtube_obj, channel_id_list)
+
+    playlist_ids = channel_stats['playlist_id'].to_list()
+
+    video_ids = []
+    for id in playlist_ids:
+        video_ids.extend(get_video_ids(youtube_obj, id))
+
+    video_df = get_video_details(youtube_obj, video_ids)
+
+    return video_df
+
+def clean_video_df(video_df):
+    # Change data types of columns with quantitative values from object to numeric
+    numeric_cols = ['viewCount', 'likeCount', 'favoriteCount', 'commentCount'] # Listing columns to convert to numeric data type
+    video_df[numeric_cols] = video_df[numeric_cols].apply(pd.to_numeric, errors = 'coerce', axis = 1)
+
+    # Change the 'true' and 'false' objects in definition to '1' and '0' respectively (for convenience when importing data into MySQL database)
+    video_df['caption'] = np.where(video_df['caption'] == 'true', 1, 0)
+
+    # Add column showing published day of the week
+    video_df['publishedAt'] = pd.to_datetime(video_df['publishedAt']).dt.tz_localize(None)
+    video_df['publishDayName'] = video_df['publishedAt'].apply(lambda x: x.strftime('%A'))
+    video_df['publishedAt'] = video_df['publishedAt'].apply(lambda x: x.strftime('%Y-%m-%d'))
+
+    # Convert duration (originally in ISO format) to seconds using the 'isodate' library
+    video_df['durationSecs'] = video_df['duration'].apply(lambda x: isodate.parse_duration(x))
+    video_df['durationSecs'] = video_df['durationSecs'].astype('timedelta64[s]') # extracts only seconds from timedelta values
+
+    # Add tag count
+    video_df['tagCount'] = video_df['tags'].apply(lambda x: 0 if x is None else len(x))
+
+    # Remove unused columns
+    video_df = video_df.drop(['tags', 'duration', 'definition'], axis=1)
+
+    return video_df
