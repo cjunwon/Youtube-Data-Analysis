@@ -62,5 +62,5 @@ def connect_to_db(username, password, host_name, schema_name, port):
         else:
             print(err)
     else:
-        print('Connected!')
+        print('Connected to Database')
         return cnx

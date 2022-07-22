@@ -22,6 +22,7 @@ def create_mysql_table(cursor):
     )
     
     cursor.execute(create_video_table_query)
+    print('MySQL table created')
 
 def check_if_video_exists(cursor, video_id):
 
@@ -70,7 +71,8 @@ def update_db(cursor, df):
         if check_if_video_exists(cursor, row['video_id']):
             update_row(cursor, row['video_id'], row['channelTitle'], row['title'], row['description'], row['publishedAt'], row['viewCount'], row['likeCount'], row['favoriteCount'], row['commentCount'], row['caption'], row['publishDayName'], row['durationSecs'], row['tagCount'])
         else:
-            tmp_df = tmp_df.append(row)
+            pd.concat([tmp_df, row])
+            # tmp_df = tmp_df.append(row)
             
     return tmp_df
 
@@ -91,3 +93,4 @@ def insert_into_table(cursor, video_id, channelTitle, title, description, publis
 def append_from_df_to_db(cursor, df):
     for i, row in df.iterrows():
         insert_into_table(cursor, row['video_id'], row['channelTitle'], row['title'], row['description'], row['publishedAt'], row['viewCount'], row['likeCount'], row['favoriteCount'], row['commentCount'], row['caption'], row['publishDayName'], row['durationSecs'], row['tagCount'])
+    print('Dataframe appended to database')

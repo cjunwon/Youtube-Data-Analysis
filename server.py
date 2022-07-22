@@ -11,10 +11,10 @@ def hello_world():
     # run other code here
     return 'This is Youtube Data Analysis test'
 
-cnx = None
-channel_id_list = ['UCLXo7UDZvByw2ixzpQCufnA']
 
-@app.route("/db-update", methods=['POST'])
+channel_id_list = ['UCYO_jab_esuFRV4b17AJtAw'] #3blue1brown
+
+@app.route("/db-update", methods=['GET'])
 def yt_API_db_update():
     youtube_obj = build_yt_API_object()
     video_df = create_video_df(youtube_obj, channel_id_list)
@@ -26,8 +26,9 @@ def yt_API_db_update():
     cursor = cnx.cursor()
     cursor.execute("DROP TABLE IF EXISTS videos")
     create_mysql_table(cursor)
-    new_vid_df = update_db(cursor, video_df)
-    append_from_df_to_db(cursor, new_vid_df)
+    new_vid_df = update_db(cursor, processed_video_df)
+    return str(new_vid_df.head())
+    # append_from_df_to_db(cursor, new_vid_df)
     cnx.commit()
     cursor.close()
     cnx.close()
