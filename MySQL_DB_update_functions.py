@@ -64,7 +64,7 @@ def update_row(cursor, video_id, channelTitle, title, description, publishedAt, 
     
     cursor.execute(update_row_query, vars_to_update)
 
-def update_df(cursor, df):
+def update_db(cursor, df):
     tmp_df = pd.DataFrame(columns=['video_id', 'channelTitle', 'title', 'description', 'publishedAt', 'viewCount', 'likeCount', 'favoriteCount', 'commentCount', 'caption', 'publishDayName', 'durationSecs', 'tagCount'])
 
     for i, row in df.iterrows():
@@ -72,7 +72,6 @@ def update_df(cursor, df):
             update_row(cursor, row['video_id'], row['channelTitle'], row['title'], row['description'], row['publishedAt'], row['viewCount'], row['likeCount'], row['favoriteCount'], row['commentCount'], row['caption'], row['publishDayName'], row['durationSecs'], row['tagCount'])
         else:
             pd.concat([tmp_df, row])
-            # tmp_df = tmp_df.append(row)
             
     return tmp_df
 
