@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from dotenv import load_dotenv
 import mysql.connector
 from mysql.connector import errorcode
@@ -64,3 +65,9 @@ def connect_to_db(username, password, host_name, schema_name, port):
     else:
         print('Connected to Database')
         return cnx
+
+def return_df_from_db(table, connection):
+    query = f"Select * from {table};"
+    result_df = pd.read_sql(query, connection)
+
+    return result_df
