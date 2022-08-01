@@ -149,6 +149,25 @@ def get_video_details(youtube, video_ids):
         
     return pd.DataFrame(all_video_info)
 
+def get_video_comments(youtube, video_id):
+
+    all_data = []
+
+    request = youtube.commentThreads().list(
+        part='snippet',
+        maxResults=100,
+        textFormat='plainText',
+        order='time',
+        videoId=video_id
+        # allThreadsRelatedToChannelId=channelId
+    )
+    response = request.execute()
+
+    # return response
+    while response:
+        
+
+
 def create_video_df(youtube_obj, channel_id_list):
     channel_stats = get_channel_stats(youtube_obj, channel_id_list)
 
