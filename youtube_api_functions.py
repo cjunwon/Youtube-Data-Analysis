@@ -151,8 +151,6 @@ def get_video_details(youtube, video_ids):
 
 def get_video_comments(youtube, video_id):
 
-    all_data = []
-
     request = youtube.commentThreads().list(
         part='snippet',
         maxResults=100,
@@ -163,9 +161,58 @@ def get_video_comments(youtube, video_id):
     )
     response = request.execute()
 
+    video_ids, comment_ids, comments, like_counts, reply_counts, authorurls, authornames, dates, totalReplyCounts = [], [], [], [], [], [], [], [], []
+
     # return response
     while response:
-        
+        for item in response['items']:
+            video_id = item['snippet']['topLevelComment']['snippet']['videoId']
+            comment_id = item['snippet']['topLevelComment']['id']
+            comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
+            like_count = item['snippet']['topLevelComment']['snippet']['likeCount']
+            reply_count = item['snippet']['totalReplyCount']
+            authorurl = item['snippet']['topLevelComment']['snippet']['authorChannelUrl']
+            authorname = item['snippet']['topLevelComment']['snippet']['authorDisplayName']
+            date = item['snippet']['topLevelComment']['snippet']['publishedAt']
+            totalReplyCount = item['snippet']['totalReplyCount']
+
+            video_ids.append(video_id)
+            comment_ids.append(comment_id)
+            comments.append(comment)
+            like_counts.append(like_count)
+            reply_counts.append(reply_count)
+            authorurls.append(authorurl)
+            authornames.append(authorname)
+            dates.append(date)
+            totalReplyCounts.append(totalReplyCount)
+
+        try:
+            if 'nextPageToken' in response:
+                request = youtube.commentThreads().list(
+                    part='snippet',
+                    maxResults=100,
+                    textFormat='plainText',
+                    order='time',
+                    videoId=video_id
+                    # allThreadsRelatedToChannelId=channelId
+                )
+                response = request.execute()
+            else:
+                break
+        except: break
+
+    comment_dict = {'video_id': video_ids,
+                    'comment_id': comment_ids,
+                    'comment': comments,
+                    'like_count': like_counts,
+                    'reply_count': like_counts,
+                    'authorurl': authorurls,
+                    'authorname': authornames, 
+                    'date': dates,
+                    'totalReplyCount': totalReplyCounts
+    }
+    
+    return pd.DataFrame(comment_dict)
 
 
 def create_video_df(youtube_obj, channel_id_list):
