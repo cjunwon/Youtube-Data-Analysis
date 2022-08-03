@@ -2,8 +2,7 @@
 from googleapiclient.discovery import build
 from IPython.display import JSON
 import urllib.request
-import urllib
-import json
+# import urllib
 import pandas as pd
 import numpy as np
 import datetime
@@ -152,18 +151,32 @@ def get_video_details(youtube, video_ids):
         
     return pd.DataFrame(all_video_info)
 
-def get_vid_title(video_id):
-    params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_id}
-    url = "https://www.youtube.com/oembed"
-    query_string = urllib.parse.urlencode(params)
-    url = url + "?" + query_string
+# def get_vid_title(video_id):
+#     params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_id}
+#     url = "https://www.youtube.com/oembed"
+#     query_string = urllib.parse.urlencode(params)
+#     url = url + "?" + query_string
 
-    with urllib.request.urlopen(url) as response:
-        response_text = response.read()
-        data = json.loads(response_text.decode())
-        return data['title']
+#     with urllib.request.urlopen(url) as response:
+#         response_text = response.read()
+#         data = json.loads(response_text.decode())
+#         return data['title']
 
 def get_video_comments(youtube, video_id):
+   
+    """
+    Gets all top level comments from selected Youtube video.
+    
+    Params:
+    --------
+    youtube: Youtube API build object
+    video_id: string value representing the id of selected video
+
+    Return:
+    --------
+    Pandas Dataframe containing video_id, comment_id, and comments from selected video
+
+    """
 
     request = youtube.commentThreads().list(
         part='snippet',
@@ -180,23 +193,19 @@ def get_video_comments(youtube, video_id):
     while response:
         for item in response['items']:
             video_id = item['snippet']['topLevelComment']['snippet']['videoId']
-            vid_title = get_vid_title(video_id)
             comment_id = item['snippet']['topLevelComment']['id']
             comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
             like_count = item['snippet']['topLevelComment']['snippet']['likeCount']
             reply_count = item['snippet']['totalReplyCount']
-            authorurl = item['snippet']['topLevelComment']['snippet']['authorChannelUrl']
             authorname = item['snippet']['topLevelComment']['snippet']['authorDisplayName']
             date = item['snippet']['topLevelComment']['snippet']['publishedAt']
             totalReplyCount = item['snippet']['totalReplyCount']
 
             video_ids.append(video_id)
-            vid_titles.append(vid_title)
             comment_ids.append(comment_id)
             comments.append(comment)
             like_counts.append(like_count)
             reply_counts.append(reply_count)
-            authorurls.append(authorurl)
             authornames.append(authorname)
             dates.append(date)
             totalReplyCounts.append(totalReplyCount)
@@ -217,12 +226,10 @@ def get_video_comments(youtube, video_id):
         except: break
 
     comment_dict = {'video_id': video_ids,
-                    'vid_title': vid_titles,
                     'comment_id': comment_ids,
                     'comment': comments,
                     'like_count': like_counts,
                     'reply_count': like_counts,
-                    'authorurl': authorurls,
                     'authorname': authornames, 
                     'date': dates,
                     'totalReplyCount': totalReplyCounts
