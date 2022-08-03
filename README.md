@@ -24,9 +24,12 @@ An end-to-end Youtube Data analysis project currently in progress.
 <hr>
 
 ## OBJECTIVE 
-<li> A </li> 
-<li> B </li> 
-<li> C </li> 
+* Build data pipeline
+  * Retreive raw channel data and comment thread data using the Youtube API
+  * Upload data to AWS RDS MySQL database
+  * Automate/Schedule data updates using ngrok and invictify
+  * Pull data from MySQL database back into pandas dataframe for analysis
+* Data Analysis (Natural Langauge Processing)
 
 <hr> 
 
@@ -40,33 +43,33 @@ An end-to-end Youtube Data analysis project currently in progress.
   </tr>
   <tr>
     <td>Data Collection</td>
-    <td>A</td> 
-    <td>B</td>
+    <td>Channel and comment data extraction from Youtube</td> 
+    <td>Youtube API, pandas, AWS RDS, mysql.connector</td>
   </tr>
   <tr>
     <td>Data Pre-processing</td>
-    <td>A</td> 
-    <td>B</td>
+    <td>Converted string/object values to appropriate quantitative data types, extracted published day of the week from given date values, converted ISO formatted video duration values to seconds, added tag counts, removed unsused columns</td> 
+    <td>pandas, numpy, datetime, isodate</td>
   </tr>
   <tr>
     <td>Data Modeling</td>
-    <td>A</td> 
-    <td>B</td>
+    <td></td> 
+    <td></td>
   </tr>
   <tr>
     <td>Text Analytics</td>
-    <td>A</td> 
-    <td>B</td>
+    <td></td> 
+    <td></td>
   </tr>
   <tr>
     <td>Data Visualization</td>
-    <td>A</td> 
-    <td>A</td>
+    <td></td> 
+    <td></td>
   </tr>
   <tr>
     <td>Environments & Platforms</td>
-    <td>A</td> 
-    <td>B</td>
+    <td></td> 
+    <td>Youtube, AWS RDS, Jupyter Notebook</td>
   </tr>
 </table><br>
 
