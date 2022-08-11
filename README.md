@@ -34,7 +34,7 @@ An end-to-end Youtube Data analysis project currently in progress.
 <hr> 
 
 ## TOOLS
-
+Languages Used: Python, SQL (MySQL), Shell
 <table style="width:100%">
   <tr>
     <th>Task</th>
