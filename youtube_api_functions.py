@@ -77,33 +77,35 @@ def get_video_ids(youtube, playlist_id):
 
     video_ids = []
 
-    request = youtube.playlistItems().list(
-        part="snippet,contentDetails",
-        playlistId=playlist_id,
-        maxResults = 50 # The maximum number of results Youtube API will return on a single instance
-    )
-    response = request.execute()
-    
-    for item in response['items']:
-        video_ids.append(item['contentDetails']['videoId'])
-        
-    # Implement 'next_page_token' to loop through all pages containing video data
-    next_page_token = response.get('nextPageToken')
-    
-    while next_page_token is not None:
+    while len(video_ids) < 100:
+
         request = youtube.playlistItems().list(
             part="snippet,contentDetails",
             playlistId=playlist_id,
-            maxResults = 50,
-            pageToken = next_page_token # Prevents infinite loop
+            maxResults = 50 # The maximum number of results Youtube API will return on a single instance
         )
         response = request.execute()
-
+        
         for item in response['items']:
             video_ids.append(item['contentDetails']['videoId'])
-
+            
+        # Implement 'next_page_token' to loop through all pages containing video data
         next_page_token = response.get('nextPageToken')
-    
+        
+        while next_page_token is not None:
+            request = youtube.playlistItems().list(
+                part="snippet,contentDetails",
+                playlistId=playlist_id,
+                maxResults = 50,
+                pageToken = next_page_token # Prevents infinite loop
+            )
+            response = request.execute()
+
+            for item in response['items']:
+                video_ids.append(item['contentDetails']['videoId'])
+
+            next_page_token = response.get('nextPageToken')
+        
     return video_ids
 
 def get_video_details(youtube, video_ids):
