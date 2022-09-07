@@ -11,7 +11,8 @@ def hello_world():
     return 'This is Youtube Data Analysis test'
 
 
-channel_id_list = ['UCYO_jab_esuFRV4b17AJtAw'] #3blue1brown
+# channel_id_list = ['UCYO_jab_esuFRV4b17AJtAw'] #3blue1brown
+channel_id_list = ['UCIRYBXDze5krPDzAEOxFGVA'] #TheGuardian,NYTimes(UCqnbDFdCpuN8CMEg0VuEBqA)
 
 @app.route("/db-update", methods=['GET'])
 def yt_API_db_update():

@@ -19,7 +19,6 @@ def run(channel_id_list):
 
     # using MySQL_DB_update_functions.py:
     create_mysql_table(cursor) # create empty SQL table
-    
     append_from_df_to_db(cursor, processed_video_df) # append cleaned dataframe to database table
 
     # new_vid_df = update_db(cursor, processed_video_df)
@@ -28,3 +27,7 @@ def run(channel_id_list):
     cnx.commit()
     cursor.close()
     cnx.close()
+    print('Test Complete')
+
+channel_id_list = ['UCIRYBXDze5krPDzAEOxFGVA'] #TheGuardian,NYTimes(UCqnbDFdCpuN8CMEg0VuEBqA)
+run(channel_id_list)

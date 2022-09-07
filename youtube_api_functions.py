@@ -77,34 +77,32 @@ def get_video_ids(youtube, playlist_id):
 
     video_ids = []
 
-    while len(video_ids) < 100:
-
+    request = youtube.playlistItems().list(
+        part="snippet,contentDetails",
+        playlistId=playlist_id,
+        maxResults = 50 # The maximum number of results Youtube API will return on a single instance
+    )
+    response = request.execute()
+    
+    for item in response['items']:
+        video_ids.append(item['contentDetails']['videoId'])
+        
+    # Implement 'next_page_token' to loop through all pages containing video data
+    next_page_token = response.get('nextPageToken')
+    
+    while next_page_token is not None:
         request = youtube.playlistItems().list(
             part="snippet,contentDetails",
             playlistId=playlist_id,
-            maxResults = 50 # The maximum number of results Youtube API will return on a single instance
+            maxResults = 50,
+            pageToken = next_page_token # Prevents infinite loop
         )
         response = request.execute()
-        
+
         for item in response['items']:
             video_ids.append(item['contentDetails']['videoId'])
-            
-        # Implement 'next_page_token' to loop through all pages containing video data
+
         next_page_token = response.get('nextPageToken')
-        
-        while next_page_token is not None:
-            request = youtube.playlistItems().list(
-                part="snippet,contentDetails",
-                playlistId=playlist_id,
-                maxResults = 50,
-                pageToken = next_page_token # Prevents infinite loop
-            )
-            response = request.execute()
-
-            for item in response['items']:
-                video_ids.append(item['contentDetails']['videoId'])
-
-            next_page_token = response.get('nextPageToken')
         
     return video_ids
 
@@ -248,7 +246,9 @@ def create_video_df(youtube_obj, channel_id_list):
     for id in playlist_ids:
         video_ids.extend(get_video_ids(youtube_obj, id))
 
-    video_df = get_video_details(youtube_obj, video_ids)
+    first_n_vids = video_ids[0:200]
+
+    video_df = get_video_details(youtube_obj, first_n_vids)
 
     return video_df
 
