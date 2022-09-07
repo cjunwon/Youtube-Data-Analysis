@@ -162,7 +162,7 @@ def get_video_details(youtube, video_ids):
 #         data = json.loads(response_text.decode())
 #         return data['title']
 
-def get_video_comments(youtube, video_id):
+def get_video_comments(youtube, video_ids):
    
     """
     Gets all top level comments from selected Youtube video.
@@ -183,32 +183,24 @@ def get_video_comments(youtube, video_id):
         maxResults=100,
         textFormat='plainText',
         order='time',
-        videoId=video_id
+        videoId=video_ids
         # allThreadsRelatedToChannelId=channel_id
     )
     response = request.execute()
 
-    video_ids, vid_titles, comment_ids, comments, like_counts, reply_counts, authorurls, authornames, dates, totalReplyCounts = [], [], [], [], [], [], [], [], [], []
+    video_ids, comment_ids, comments, dates = [], [], [], []
 
     while response:
         for item in response['items']:
             video_id = item['snippet']['topLevelComment']['snippet']['videoId']
             comment_id = item['snippet']['topLevelComment']['id']
             comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
-            like_count = item['snippet']['topLevelComment']['snippet']['likeCount']
-            reply_count = item['snippet']['totalReplyCount']
-            authorname = item['snippet']['topLevelComment']['snippet']['authorDisplayName']
             date = item['snippet']['topLevelComment']['snippet']['publishedAt']
-            totalReplyCount = item['snippet']['totalReplyCount']
 
             video_ids.append(video_id)
             comment_ids.append(comment_id)
             comments.append(comment)
-            like_counts.append(like_count)
-            reply_counts.append(reply_count)
-            authornames.append(authorname)
             dates.append(date)
-            totalReplyCounts.append(totalReplyCount)
 
         try:
             if 'nextPageToken' in response:
@@ -228,12 +220,8 @@ def get_video_comments(youtube, video_id):
     comment_dict = {'video_id': video_ids,
                     'comment_id': comment_ids,
                     'comment': comments,
-                    'like_count': like_counts,
-                    'reply_count': like_counts,
-                    'authorname': authornames, 
-                    'date': dates,
-                    'totalReplyCount': totalReplyCounts
-    }
+                    'date': dates
+                    }
     
     return pd.DataFrame(comment_dict)
 

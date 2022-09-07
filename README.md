@@ -25,7 +25,7 @@ An end-to-end Youtube Data analysis project currently in progress.
 
 ## OBJECTIVE 
 * Build data pipeline
-  * Retreive raw channel data and comment thread data using the Youtube API
+  * Retreive raw channel data and comment thread data using the Youtube Data API
   * Upload data to AWS RDS MySQL database
   * Automate/Schedule data updates using ngrok and invictify
   * Pull data from MySQL database back into pandas dataframe for analysis
@@ -104,7 +104,7 @@ An end-to-end Youtube Data analysis project currently in progress.
   </tr>
 </table>
 
-<h4> Data Collection: Youtube API </h4>
+<h4> Data Collection: Youtube Data API </h4>
 
 <h4> Data Coverage: </h4> A <br>
 B <br>
