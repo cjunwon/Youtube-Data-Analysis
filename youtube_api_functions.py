@@ -162,7 +162,7 @@ def get_video_details(youtube, video_ids):
 #         data = json.loads(response_text.decode())
 #         return data['title']
 
-def get_video_comments(youtube, video_ids):
+def get_video_comments(youtube, video_id):
    
     """
     Gets all top level comments from selected Youtube video.
@@ -183,39 +183,50 @@ def get_video_comments(youtube, video_ids):
         maxResults=100,
         textFormat='plainText',
         order='time',
-        videoId=video_ids
+        videoId=video_id
         # allThreadsRelatedToChannelId=channel_id
     )
     response = request.execute()
 
     video_ids, comment_ids, comments, dates = [], [], [], []
+    
+    for item in response['items']:
+        video_id = item['snippet']['topLevelComment']['snippet']['videoId']
+        comment_id = item['snippet']['topLevelComment']['id']
+        comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
+        date = item['snippet']['topLevelComment']['snippet']['publishedAt']
 
-    while response:
-        for item in response['items']:
-            video_id = item['snippet']['topLevelComment']['snippet']['videoId']
-            comment_id = item['snippet']['topLevelComment']['id']
-            comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
-            date = item['snippet']['topLevelComment']['snippet']['publishedAt']
+        video_ids.append(video_id)
+        comment_ids.append(comment_id)
+        comments.append(comment)
+        dates.append(date)
 
-            video_ids.append(video_id)
-            comment_ids.append(comment_id)
-            comments.append(comment)
-            dates.append(date)
+    # while response:
+    #     for item in response['items']:
+    #         video_id = item['snippet']['topLevelComment']['snippet']['videoId']
+    #         comment_id = item['snippet']['topLevelComment']['id']
+    #         comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
+    #         date = item['snippet']['topLevelComment']['snippet']['publishedAt']
 
-        try:
-            if 'nextPageToken' in response:
-                request = youtube.commentThreads().list(
-                    part='snippet',
-                    maxResults=100,
-                    textFormat='plainText',
-                    order='time',
-                    videoId=video_id
-                    # allThreadsRelatedToChannelId=channelId
-                )
-                response = request.execute()
-            else:
-                break
-        except: break
+    #         video_ids.append(video_id)
+    #         comment_ids.append(comment_id)
+    #         comments.append(comment)
+    #         dates.append(date)
+
+    #     try:
+    #         if 'nextPageToken' in response:
+    #             request = youtube.commentThreads().list(
+    #                 part='snippet',
+    #                 maxResults=100,
+    #                 textFormat='plainText',
+    #                 order='time',
+    #                 videoId=video_id
+    #                 # allThreadsRelatedToChannelId=channelId
+    #             )
+    #             response = request.execute()
+    #         else:
+    #             break
+    #     except: break
 
     comment_dict = {'video_id': video_ids,
                     'comment_id': comment_ids,
@@ -234,7 +245,7 @@ def create_video_df(youtube_obj, channel_id_list):
     for id in playlist_ids:
         video_ids.extend(get_video_ids(youtube_obj, id))
 
-    first_n_vids = video_ids[0:200]
+    first_n_vids = video_ids[0:50]
 
     video_df = get_video_details(youtube_obj, first_n_vids)
 
