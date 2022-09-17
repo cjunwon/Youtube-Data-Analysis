@@ -149,7 +149,7 @@ def get_video_details(youtube, video_ids):
         
     return pd.DataFrame(all_video_info)
 
-def create_video_df(youtube_obj, channel_id_list, vid_count):
+def create_video_df(youtube_obj, channel_id_list, vid_amount):
     channel_stats = get_channel_stats(youtube_obj, channel_id_list)
 
     playlist_ids = channel_stats['playlist_id'].to_list()
@@ -158,7 +158,7 @@ def create_video_df(youtube_obj, channel_id_list, vid_count):
     for id in playlist_ids:
         video_ids.extend(get_video_ids(youtube_obj, id))
 
-    first_n_vids = video_ids[0:vid_count]
+    first_n_vids = video_ids[0:vid_amount]
 
     video_df = get_video_details(youtube_obj, first_n_vids)
 
