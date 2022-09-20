@@ -1,4 +1,6 @@
 # Youtube-Data-Analysis
+
+To view the main analysis process, click on this Jupyter's [nbviewer link](https://nbviewer.org/github/cjunwon/Youtube-Data-Analysis/blob/main/main.ipynb) to load main.ipynb and its interactive graphs.
  
 An end-to-end Youtube Data analysis project currently in progress.
 
@@ -13,13 +15,12 @@ An end-to-end Youtube Data analysis project currently in progress.
 * [Data Visualization](#data-visualization)
 * [Results](#results)
 * [Conclusion](#conclusion)
-* [References](#references)
 * [Challenges and Future Work](#challenges-and-futurework)
 
 <hr>
 
 ## BACKGROUND 
-
+Youtube is the second largest search engine behind Google. It provides a valuable platform for analyzing the general public's attitude toward certain topics and how information is presented to them. This project focuses on user comment interactions and video performances based on various factors. This project also demonstrates automated and scalable data pipelines using APIs and SQL databases.
 
 <hr>
 
@@ -43,7 +44,7 @@ An end-to-end Youtube Data analysis project currently in progress.
   </tr>
   <tr>
     <td>Data Collection</td>
-    <td>Channel and comment data extraction from Youtube</td> 
+    <td>Channel and comment data extraction through Youtube Data API</td> 
     <td>Youtube API, pandas, AWS RDS, mysql.connector</td>
   </tr>
   <tr>
@@ -58,13 +59,13 @@ An end-to-end Youtube Data analysis project currently in progress.
   </tr>
   <tr>
     <td>Text Analytics</td>
-    <td></td> 
-    <td></td>
+    <td>Natural Language Processing using the VADER (Valence Aware Dictionary and sEntiment Reasoner) analysis tool from the NLTK package.</td> 
+    <td>NLP, VADER, NLTK</td>
   </tr>
   <tr>
     <td>Data Visualization</td>
-    <td></td> 
-    <td></td>
+    <td>Plotted view/like counts on average comment sentiment value for each video to analyze patterns.</td> 
+    <td>plotly</td>
   </tr>
   <tr>
     <td>Environments & Platforms</td>
@@ -114,23 +115,28 @@ C <br>
 
 ## DATA-PREPROCESSING
 
-<b> Data Cleaning </b> 
-
-<li> A </li> 
-<li> B </li> 
-<li> C </li> 
+There were two stages to the data cleaning process, the first for video information collected through the Youtube Data API, and the second for preparing the comments for natural language processing.
+* Video Information:
+  * The code for this process can be found in [youtube_api_functions.py](https://github.com/cjunwon/Youtube-Data-Analysis/blob/main/youtube_api_functions.py) under the 'clean_video_df' function.
+  * The Youtube API returns all video information as object values. Columns containing numeric information were converted to numeric data types.
+  * Added column showing published day of the week through python datetime values
+  * Converted duration (originally in ISO format) to seconds using the 'isodate' library
+  * Removed unused columns
+* Comment Texts:
+  * The code for this process can be found in [main.ipynb](https://github.com/cjunwon/Youtube-Data-Analysis/blob/main/main.ipynb) under the 'preprocess' function.
+  * Since the VADER model was used for NLP analysis, the comment texts did not require heavy cleaning - the model comfortably handles emojis, stopwords, etc. The "\n" for new line was removed for all comments.
 
 <hr>
 
 ## DATA-MODELING
 
-<h4> A </h4>
-B
+<h4> Youtube Data API to AWS</h4>
 
 <hr>
 
 ## DATA-VISUALIZATION 
 
+<hr>
 
 ## RESULTS 
 
@@ -141,9 +147,5 @@ B
 
 <hr>
 
-## REFERENCES 
-
-
-<hr>
 
 ## CHALLENGES-AND-FUTUREWORK 
