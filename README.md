@@ -11,7 +11,7 @@ An end-to-end Youtube Data analysis project currently in progress.
 * [Tools and Packages](#tools)
 * [Data Collection](#data-collection)
 * [Data Pre-Processing](#data-preprocessing)
-* [Data Modeling](#data-modeling)
+* [Data Modeling (Pipeline)](#data-modeling-pipeline)
 * [Data Visualization](#data-visualization)
 * [Results](#results)
 * [Conclusion](#conclusion)
@@ -20,7 +20,7 @@ An end-to-end Youtube Data analysis project currently in progress.
 <hr>
 
 ## BACKGROUND 
-Youtube is the second largest search engine behind Google. It provides a valuable platform for analyzing the general public's attitude toward certain topics and how information is presented to them. This project focuses on user comment interactions and video performances based on various factors. This project also demonstrates automated and scalable data pipelines using APIs and SQL databases.
+Youtube is the second largest search engine behind Google. It provides a valuable platform for analyzing the general public's attitude toward certain topics and how information is presented to them. This project focuses on user comment interactions and video performances based on various factors - in particular, it explores ***whether polar/extreme video titles attract more views and interactions***. This project also demonstrates automated and scalable data pipelines using APIs and SQL databases.
 
 <hr>
 
@@ -31,6 +31,7 @@ Youtube is the second largest search engine behind Google. It provides a valuabl
   * Automate/Schedule data updates using ngrok and invictify
   * Pull data from MySQL database back into pandas dataframe for analysis
 * Data Analysis (Natural Langauge Processing)
+  * Main question to answer: *Do videos with stronger sentiment values show high view counts?*
 
 <hr> 
 
@@ -53,9 +54,9 @@ Youtube is the second largest search engine behind Google. It provides a valuabl
     <td>pandas, numpy, datetime, isodate</td>
   </tr>
   <tr>
-    <td>Data Modeling</td>
-    <td></td> 
-    <td></td>
+    <td>Data Modeling (Pipeline)</td>
+    <td>Autmation/scheduling scripts to pull & push data to and from MySQL database</td> 
+    <td>Flask, ngrok, Invictify</td>
   </tr>
   <tr>
     <td>Text Analytics</td>
@@ -69,7 +70,7 @@ Youtube is the second largest search engine behind Google. It provides a valuabl
   </tr>
   <tr>
     <td>Environments & Platforms</td>
-    <td></td> 
+    <td>Main functions stored and organized in python scripts, analysis and comment extractions hosted on Jupyter notebook</td> 
     <td>Youtube, AWS RDS, Jupyter Notebook</td>
   </tr>
 </table><br>
@@ -128,9 +129,22 @@ There were two stages to the data cleaning process, the first for video informat
 
 <hr>
 
-## DATA-MODELING
+## DATA-MODELING-PIPELINE
 
-<h4> Youtube Data API to AWS</h4>
+<h3>Youtube Video Data</h3>
+(Channel playlist data extracted using Youtube API - stored and cleaned in pandas dataframe) <br>
+↓
+<h3>AWS MySQL RDS</h3>
+(Processed dataframe uploaded to MySQL RDS hosted through AWS - function checks to see repeating videos through unique ids and updates with current statistics) <br>
+↓
+<h3>Automation using Flask, ngrok, Invictify</h3>
+(Schedule the above MySQL database push by hosting API collection and SQL upload functions on Flask server and schedule scripts using ngrok and invictify) <br>
+↓
+<h3>Data pulled from MySQL database back into pandas dataframe for analysis</h3>
+(Video IDs and other relevant columns can be selected for further analysis) <br>
+↓
+<h3>Youtube Comment data </h3>
+(Top level comments for selected video ids from above extracted through Youtube API for analysis)
 
 <hr>
 
@@ -149,3 +163,6 @@ There were two stages to the data cleaning process, the first for video informat
 
 
 ## CHALLENGES-AND-FUTUREWORK 
+
+* Comment extraction process through the Youtube Data API can be added along with the video information and updated onto the MySQL database, stored in a separate table/schema.
+* An interactive dashboard can be generated to capture and display data for multiple Youtube channels in a more efficient and accecible manner.
