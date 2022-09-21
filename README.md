@@ -1,8 +1,6 @@
 # Youtube-Data-Analysis
-
-To view the main analysis process, click on this Jupyter's [nbviewer link](https://nbviewer.org/github/cjunwon/Youtube-Data-Analysis/blob/main/main.ipynb) to load main.ipynb and its interactive graphs.
  
-An end-to-end Youtube Data analysis project currently in progress.
+An end-to-end Youtube Data analysis project.
 
 ## TABLE OF CONTENTS
 
