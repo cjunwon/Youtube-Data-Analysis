@@ -27,7 +27,6 @@ def run(channel_id_list):
     cnx.commit()
     cursor.close()
     cnx.close()
-    print('Test Complete')
 
-channel_id_list = ['UCIRYBXDze5krPDzAEOxFGVA'] #TheGuardian,NYTimes(UCqnbDFdCpuN8CMEg0VuEBqA)
+channel_id_list = ['UCaXkIU1QidjPwiAYu6GcHjg'] #MSNBC
 run(channel_id_list)
