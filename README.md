@@ -7,11 +7,9 @@ An end-to-end Youtube Data analysis project.
 * [Background](#background)
 * [Objective](#objective)
 * [Tools and Packages](#tools)
-* [Data Collection](#data-collection)
 * [Data Pre-Processing](#data-preprocessing)
 * [Data Modeling (Pipeline)](#data-modeling-pipeline)
 * [Data Visualization](#data-visualization)
-* [Results](#results)
 * [Conclusion](#conclusion)
 * [Challenges and Future Work](#challenges-and-futurework)
 
@@ -63,8 +61,8 @@ Youtube is the second largest search engine behind Google. It provides a valuabl
   </tr>
   <tr>
     <td>Data Visualization</td>
-    <td>Plotted view/like counts on average comment sentiment value for each video to analyze patterns.</td> 
-    <td>plotly</td>
+    <td>Exploratory Data Analysis. Plotted view/like counts on average comment sentiment value for each video to analyze patterns.</td> 
+    <td>Matplotlib, seaborn, plotly</td>
   </tr>
   <tr>
     <td>Environments & Platforms</td>
@@ -72,43 +70,6 @@ Youtube is the second largest search engine behind Google. It provides a valuabl
     <td>Youtube, AWS RDS, Jupyter Notebook</td>
   </tr>
 </table><br>
-
-<hr>
-
-## DATA-COLLECTION 
-
-<table style="width:100%">
-  <tr>
-    <th>Method</th>
-    <th>Notes</th> 
-  </tr>
-  <tr>
-    <td>A</td>
-    <td>B</td> 
-  </tr>
-  <tr>
-    <td>A</td>
-    <td>B</td> 
-  </tr>
-  <tr>
-    <td>A</td>
-    <td>B</td> 
-  </tr>
-  <tr>
-    <td><b>A</b></td>
-    <td><b>B</b></td> 
-  </tr>
-  <tr>
-    <td>A</td>
-    <td>B</td> 
-  </tr>
-</table>
-
-<h4> Data Collection: Youtube Data API </h4>
-
-<h4> Data Coverage: </h4> A <br>
-B <br>
-C <br>
 
 <hr>
 
@@ -148,14 +109,15 @@ There were two stages to the data cleaning process, the first for video informat
 
 ## DATA-VISUALIZATION 
 
-<hr>
+Exploratory data analysis was completed using the Matplotlib and Seaborn library.
 
-## RESULTS 
+The [final interactive plot](https://cjunwon.github.io/Youtube-Data-Analysis/) was created using the plotly library.
 
 <hr>
 
 ## CONCLUSION 
 
+The Youtube Data API provides a rich set of data for selected channels and videos for various types of analysis. The tools and methods used in this project could be applied to managing your personal Youtube channel and keep a personalized and up-to-date feedback on your channel's performance.
 
 <hr>
 
