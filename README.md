@@ -1,6 +1,6 @@
 # Youtube-Data-Analysis
  
-An end-to-end Youtube Data analysis project. Quick link to [final visualization](https://cjunwon.github.io/Youtube-Data-Analysis/).
+An end-to-end Youtube Data analysis pipeline. Quick link to [final visualization](https://cjunwon.github.io/Youtube-Data-Analysis/).
 
 ## TABLE OF CONTENTS
 
